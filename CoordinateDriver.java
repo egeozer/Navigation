@@ -39,20 +39,20 @@ public class CoordinateDriver {
 		double tempY = y-currentY;
 		double distance;
 		double angle;
-		for(int i = 0; i<10; i++){
+/*		for(int i = 0; i<10; i++){
 			System.out.println("------------------------------");
 				System.out.println(currentX);
 				System.out.println(currentY);
 				System.out.println("------------------------------");
 		}
+		*/
 		
-		//double xPos = odometer.getY();
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e){}
 		
 		distance = Math.sqrt(  Math.pow((tempX), 2)    + Math.pow((tempY), 2)   );
-		
+	/*	
 		if(tempX>0 && tempY>= -2 && tempY<=2)
 			angle = 90;
 		else if(tempX<0 && tempY >= -2 && tempY<=2)
@@ -63,14 +63,15 @@ public class CoordinateDriver {
 		else if(tempY<0 && tempX >= -2 && tempX<=2){
 			angle = 180;
 			
-		}
-		else if (tempY<-2 && tempX<-2){
-		angle = 90-Math.atan((tempY)/(tempX))*180/Math.PI-180; 
-		}
-		else{
-		angle = 90-Math.atan((tempY)/(tempX))*180/Math.PI; 
-		System.out.println("ELSLELELELELELELELEL");
-		}
+		
+	}	*/
+	//	else if (tempY<-2 && tempX<-2){
+		//angle = 90-Math.atan((tempY)/(tempX))*180/Math.PI-180; 
+		//}
+		
+		angle = Math.atan2(tempX,tempY)*180/Math.PI; 
+		//System.out.println("ELSLELELELELELELELEL");
+		
 		
 		
 		turnTo(angle);
@@ -81,12 +82,13 @@ public class CoordinateDriver {
 		leftMotor.rotate(convertDistance(leftRadius, distance), true);
 		rightMotor.rotate(convertDistance(rightRadius, distance), false);
 		
-		for(int i = 0; i<10; i++){
+	/*	for(int i = 0; i<10; i++){
 			System.out.println("------------------------------");
 				System.out.println(currentX);
 				System.out.println(currentY);
 				System.out.println("------------------------------");
 		}
+		*/
 		leftMotor.setSpeed(ROTATE_SPEED);
 		rightMotor.setSpeed(ROTATE_SPEED);
 		
