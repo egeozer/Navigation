@@ -40,9 +40,8 @@ public class CoordinateDriver extends Thread{
 		}
 		
 		//Synchronize motors
-		//RegulatedMotor regLeftMotor = leftMotor;
-		//RegulatedMotor regRightMotor = leftMotor;
-		//regLeftMotor.synchronizeWith(new RegulatedMotor[] {regRightMotor});
+		leftMotor.synchronizeWith(new EV3LargeRegulatedMotor[] {rightMotor});
+		
 	}
 
 		public void run() {
@@ -89,6 +88,7 @@ public class CoordinateDriver extends Thread{
 		distance = Math.sqrt(  Math.pow((tempX), 2)    + Math.pow((tempY), 2)   );
 	
 		
+
 		//angle = ((Math.atan2(tempX,tempY)*180/Math.PI-odometer.getTheta()*180/Math.PI)+180)%360-180;
 		angle =Math.atan2(tempX,tempY)*180/Math.PI;
 		
@@ -97,6 +97,7 @@ public class CoordinateDriver extends Thread{
 		
 		
 		turnTo (angle);
+
 		
 		
 		leftMotor.setSpeed(FORWARD_SPEED);
