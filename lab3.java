@@ -5,12 +5,16 @@ import lejos.hardware.Button;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
+<<<<<<< HEAD
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
 import wallFollower.UltrasonicController;
 import wallFollower.UltrasonicPoller;
+=======
+
+>>>>>>> origin/master
 
 public class lab3 {
 	// Static Resources:
@@ -25,7 +29,6 @@ public class lab3 {
 // Left motor connected to output A
 // Right motor connected to output B
 	
-	private static final Port usPort = LocalEV3.get().getPort("S1");
 	// Constants
 	public static final double WHEEL_RADIUS = 2.14;
 	public static final double TRACK = 14.5;  

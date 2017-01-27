@@ -5,7 +5,7 @@ import Navigation.UltrasonicController;
 
 public class coordinateFollower extends Thread implements UltrasonicController{
 
-	private final int bandCenter, bandwidth;
+	private final int bandCenter;
 	private final int motorLow, motorHigh, FILTER_OUT = 20;
 	public static final int DELTASPD = 100;
 	private int distance;
@@ -18,7 +18,6 @@ public class coordinateFollower extends Thread implements UltrasonicController{
 
 		//Default Constructor
 		this.bandCenter = bandCenter;
-		this.bandwidth = bandwidth;
 		this.motorLow = motorLow;
 		this.motorHigh = motorHigh;
 		this.leftMotor = leftMotor;
