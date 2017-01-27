@@ -29,6 +29,11 @@ public class CoordinateDriver {
 			motor.stop();
 			motor.setAcceleration(300);
 		}
+		
+		//Synchronize motors (optional correction for more accuracy) -MK
+		//RegulatedMotor regLeftMotor = leftMotor;
+		//RegulatedMotor regRightMotor = leftMotor;
+		//regLeftMotor.synchronizeWith(new RegulatedMotor[] {regRightMotor});
 	}
 	
 	
@@ -73,7 +78,7 @@ public class CoordinateDriver {
 		//System.out.println("ELSLELELELELELELELEL");
 		
 		
-		
+				
 		turnTo(angle);
 		
 		leftMotor.setSpeed(FORWARD_SPEED);
