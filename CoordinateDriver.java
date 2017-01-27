@@ -41,8 +41,8 @@ public class CoordinateDriver {
 		double angle;
 		for(int i = 0; i<10; i++){
 			System.out.println("------------------------------");
-				System.out.println(tempX);
-				System.out.println(tempY);
+				System.out.println(currentX);
+				System.out.println(currentY);
 				System.out.println("------------------------------");
 		}
 		
@@ -83,8 +83,8 @@ public class CoordinateDriver {
 		
 		for(int i = 0; i<10; i++){
 			System.out.println("------------------------------");
-				System.out.println(tempX);
-				System.out.println(tempY);
+				System.out.println(currentX);
+				System.out.println(currentY);
 				System.out.println("------------------------------");
 		}
 		leftMotor.setSpeed(ROTATE_SPEED);
@@ -95,8 +95,8 @@ public class CoordinateDriver {
 		
 		
 
-		//odometer.setX(odometer.getX());
-		//odometer.setY(odometer.getY());
+		odometer.setX(x);
+		odometer.setY(y);
 
 		
 		
