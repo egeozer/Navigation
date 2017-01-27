@@ -29,6 +29,8 @@ public class lab3 {
 		OdometryDisplay odometryDisplay = new OdometryDisplay(odometer,t);
 		//OdometryCorrection odometryCorrection = new OdometryCorrection(odometer);
 
+		
+		//egde do you get this change
 		do {
 			// clear the display
 			t.clear();
