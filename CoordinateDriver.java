@@ -3,11 +3,7 @@
  */
 package Navigation;
 
-import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
-import lejos.hardware.port.Port;
-import lejos.robotics.RegulatedMotor;
-import wallFollower.BangBangController;
 
 public class CoordinateDriver extends Thread{
 	private static final int FORWARD_SPEED = 250;
@@ -16,11 +12,6 @@ public class CoordinateDriver extends Thread{
 	double leftRadius; double rightRadius; double width;
 	double  previousAngle = 0;
 	
-	private static final int bandCenter = 35;			// Offset from the wall (cm)
-	private static final int bandWidth = 2;				// Width of dead band (cm)
-	private static final int motorLow = 225;			// Speed of slower rotating wheel (deg/sec)
-	private static final int motorHigh = 250;			// Speed of the faster rotating wheel (deg/sec)
-	private static final Port usPort = LocalEV3.get().getPort("S1");
 	Odometer odometer;
 	
 
@@ -65,13 +56,11 @@ public class CoordinateDriver extends Thread{
 	
 	
 	void travelTo(double x, double y){
-		coordinateFollower follower = new coordinateFollower(leftMotor, rightMotor, bandCenter, bandWidth, motorLow, motorHigh);
 		double currentX = odometer.getX();
 		double currentY = odometer.getY();
 		double tempX = x-currentX;
 		double tempY = y-currentY;
 		double distance;
-	
 		double angle;
 		/*for(int i = 0; i<10; i++){
 			System.out.println("------------------------------");
@@ -87,8 +76,6 @@ public class CoordinateDriver extends Thread{
 		
 		distance = Math.sqrt(  Math.pow((tempX), 2)    + Math.pow((tempY), 2)   );
 	
-		
-
 		//angle = ((Math.atan2(tempX,tempY)*180/Math.PI-odometer.getTheta()*180/Math.PI)+180)%360-180;
 		angle =Math.atan2(tempX,tempY)*180/Math.PI;
 		
@@ -98,13 +85,15 @@ public class CoordinateDriver extends Thread{
 		
 		turnTo (angle);
 
-		
-		
+		//set linear speed	
 		leftMotor.setSpeed(FORWARD_SPEED);
 		rightMotor.setSpeed(FORWARD_SPEED);
 		
+		//move forwards with motors synchronized
+		leftMotor.startSynchronization();	
 		leftMotor.rotate(convertDistance(leftRadius, distance), true);
 		rightMotor.rotate(convertDistance(rightRadius, distance), false);
+		leftMotor.endSynchronization();
 	/*	
 		for(int i = 0; i<10; i++){
 			System.out.println("------------------------------");
@@ -129,11 +118,15 @@ public class CoordinateDriver extends Thread{
 	}
 	
 	void turnTo(double theta){
+		//set rotational speed
 		leftMotor.setSpeed(ROTATE_SPEED);
 		rightMotor.setSpeed(ROTATE_SPEED);
-				
+		
+		//turn with motors synchronized
+		leftMotor.startSynchronization();
 		leftMotor.rotate(convertAngle(leftRadius, width, theta), true);
 		rightMotor.rotate(-convertAngle(rightRadius, width, theta), false);
+		leftMotor.endSynchronization();
 	}
 	
 	boolean isNavigating(){
