@@ -29,11 +29,6 @@ public class CoordinateDriver {
 			motor.stop();
 			motor.setAcceleration(300);
 		}
-		
-		//Synchronize motors (optional correction for more accuracy) -MK
-		//RegulatedMotor regLeftMotor = leftMotor;
-		//RegulatedMotor regRightMotor = leftMotor;
-		//regLeftMotor.synchronizeWith(new RegulatedMotor[] {regRightMotor});
 	}
 	
 	
@@ -57,28 +52,11 @@ public class CoordinateDriver {
 		} catch (InterruptedException e){}
 		
 		distance = Math.sqrt(  Math.pow((tempX), 2)    + Math.pow((tempY), 2)   );
-	/*	
-		if(tempX>0 && tempY>= -2 && tempY<=2)
-			angle = 90;
-		else if(tempX<0 && tempY >= -2 && tempY<=2)
-			angle = -90;
-		
-		else if(tempY >0 && tempX >= -2 && tempX<=2)
-			angle = 0;
-		else if(tempY<0 && tempX >= -2 && tempX<=2){
-			angle = 180;
-			
-		
-	}	*/
-	//	else if (tempY<-2 && tempX<-2){
-		//angle = 90-Math.atan((tempY)/(tempX))*180/Math.PI-180; 
-		//}
+	
 		
 		angle = Math.atan2(tempX,tempY)*180/Math.PI; 
-		//System.out.println("ELSLELELELELELELELEL");
+			
 		
-		
-				
 		turnTo(angle);
 		
 		leftMotor.setSpeed(FORWARD_SPEED);
