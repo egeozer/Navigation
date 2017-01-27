@@ -29,6 +29,11 @@ public class CoordinateDriver {
 			motor.stop();
 			motor.setAcceleration(300);
 		}
+		
+		//Synchronize motors
+		//RegulatedMotor regLeftMotor = leftMotor;
+		//RegulatedMotor regRightMotor = leftMotor;
+		//regLeftMotor.synchronizeWith(new RegulatedMotor[] {regRightMotor});
 	}
 	
 	

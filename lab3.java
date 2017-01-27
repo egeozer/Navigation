@@ -29,48 +29,26 @@ public class lab3 {
 		OdometryDisplay odometryDisplay = new OdometryDisplay(odometer,t);
 		//OdometryCorrection odometryCorrection = new OdometryCorrection(odometer);
 
-		
 		// start the odometer, the odometry display and (possibly) the
 		// odometry correction
 			
-
-			leftMotor.forward();
-			leftMotor.flt();
-			rightMotor.forward();
-			rightMotor.flt();
-			
-			odometer.start();
-			odometryDisplay.start();
-		//	odometryCorrection.start();
-			
-			// start the odometer, the odometry display and (possibly) the
-			// odometry correction
-			
-			odometer.start();
-			odometryDisplay.start();
-			//odometryCorrection.start();
-
-			// spawn a new Thread to avoid SquareDriver.drive() from blocking
-			(new Thread() {
-				public void run() {
-					driver.travelTo(60,30);
-					driver.travelTo(30,30);
-					driver.travelTo(30,60);
-					driver.travelTo(60,0);
-					driver.travelTo(0,0);
-					//driver.travelTo(30,-60);
-					//driver.travelTo(0,60);//CoordinateDriver.drive(leftMotor, rightMotor, WHEEL_RADIUS, WHEEL_RADIUS, TRACK);
-					//CoordinateDriver.travelTo(3,3);
-				}
-			}).start();
-		
 		odometer.start();
 		odometryDisplay.start();
 		//odometryCorrection.start();
 
 		// spawn a new Thread to avoid SquareDriver.drive() from blocking
-	
-
+		(new Thread() {
+			public void run() {
+				driver.travelTo(60,30);
+				driver.travelTo(30,30);
+				driver.travelTo(30,60);
+				driver.travelTo(60,0);
+				driver.travelTo(0,0);
+				//driver.travelTo(30,-60);
+				//driver.travelTo(0,60);//CoordinateDriver.drive(leftMotor, rightMotor, WHEEL_RADIUS, WHEEL_RADIUS, TRACK);
+				//CoordinateDriver.travelTo(3,3);
+			}
+		}).start();
 		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
 		System.exit(0);
