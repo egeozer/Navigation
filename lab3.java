@@ -67,8 +67,9 @@ public class lab3 {
 			(new Thread() {
 				public void run() {
 					driver.travelTo(60,30);
-					driver.travelTo(60,60);
-				//	driver.travelTo(60,30);
+					driver.travelTo(30,30);
+					driver.travelTo(30,60);
+					driver.travelTo(60,0);
 				//	driver.travelTo(90,30);
 					//driver.travelTo(30,-60);
 					//driver.travelTo(0,60);//CoordinateDriver.drive(leftMotor, rightMotor, WHEEL_RADIUS, WHEEL_RADIUS, TRACK);
