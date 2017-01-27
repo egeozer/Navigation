@@ -9,7 +9,7 @@ import lejos.hardware.port.Port;
 import lejos.robotics.RegulatedMotor;
 import wallFollower.BangBangController;
 
-public class CoordinateDriver extends Thread{
+public class CoordinateDriver extends Thread implements UltrasonicController{
 	private static final int FORWARD_SPEED = 250;
 	private static final int ROTATE_SPEED = 150;
 	EV3LargeRegulatedMotor leftMotor; EV3LargeRegulatedMotor rightMotor;
@@ -65,7 +65,7 @@ public class CoordinateDriver extends Thread{
 	
 	
 	void travelTo(double x, double y){
-		coordinateFollower follower = new coordinateFollower(leftMotor, rightMotor, bandCenter, bandWidth, motorLow, motorHigh);
+		//coordinateFollower follower = new coordinateFollower(leftMotor, rightMotor, bandCenter, bandWidth, motorLow, motorHigh);
 		double currentX = odometer.getX();
 		double currentY = odometer.getY();
 		double tempX = x-currentX;
@@ -149,4 +149,18 @@ public class CoordinateDriver extends Thread{
 	private static int convertAngle(double radius, double width, double angle) {
 		return convertDistance(radius, Math.PI * width * angle / 360.0);
 	}
+
+	@Override
+	public void processUSData(int distance) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int readUSDistance() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
 }

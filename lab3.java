@@ -9,6 +9,8 @@ import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
+import wallFollower.UltrasonicController;
+import wallFollower.UltrasonicPoller;
 
 public class lab3 {
 	// Static Resources:
@@ -32,7 +34,7 @@ public class lab3 {
 		
 		Odometer odometer = new Odometer(leftMotor, rightMotor);
 		 CoordinateDriver driver = new CoordinateDriver(leftMotor, rightMotor, WHEEL_RADIUS, WHEEL_RADIUS, TRACK, odometer);
-		 
+		 //classtest name = new classtest();
 		 //coordinateFollower follower = new coordinateFollower(leftMotor, rightMotor, bandCenter, bandWidth, motorLow, motorHigh);
 		// some objects that need to be instantiated
 		
@@ -40,20 +42,20 @@ public class lab3 {
 		//Odometer odometer = new Odometer(leftMotor, rightMotor);
 		OdometryDisplay odometryDisplay = new OdometryDisplay(odometer,t);
 		//OdometryCorrection odometryCorrection = new OdometryCorrection(odometer);
-		//SensorModes usSensor = new EV3UltrasonicSensor(usPort);		// usSensor is the instance
-		//SampleProvider usDistance = usSensor.getMode("Distance");	// usDistance provides samples from this instance
-		//float[] usData = new float[usDistance.sampleSize()];		// usData is the buffer in which data are returned
+		SensorModes usSensor = new EV3UltrasonicSensor(usPort);		// usSensor is the instance
+		SampleProvider usDistance = usSensor.getMode("Distance");	// usDistance provides samples from this instance
+		float[] usData = new float[usDistance.sampleSize()];		// usData is the buffer in which data are returned
 		
 		// Setup Printer											// This thread prints status information
 		//Printer printer = null;										// in the background
 		
 		// Setup Ultrasonic Poller									// This thread samples the US and invokes
-		//UltrasonicPoller usPoller = null;							// the selected controller on each cycle
+		UltrasonicPoller usPoller = null;							// the selected controller on each cycle
 				
 		// Depending on which button was pressed, invoke the US poller and printer with the
 		// appropriate constructor.
 		
-	
+		//usPoller = new UltrasonicPoller(usDistance, usData,  name);
 		
 												// Proportional control selected
 		//usPoller = new UltrasonicPoller(usDistance, usData, follower);
