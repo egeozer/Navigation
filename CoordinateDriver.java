@@ -76,14 +76,14 @@ public class CoordinateDriver {
 				System.out.println(currentY);
 				System.out.println("------------------------------");
 		}
-		*/
+		
 		leftMotor.setSpeed(ROTATE_SPEED);
 		rightMotor.setSpeed(ROTATE_SPEED);
 		
 		leftMotor.rotate(convertAngle(leftRadius, width, -angle), true);
 		rightMotor.rotate(-convertAngle(rightRadius, width, -angle), false);
 		
-		
+		*/
 
 		odometer.setX(x);
 		odometer.setY(y);
