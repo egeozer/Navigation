@@ -18,7 +18,7 @@ public class lab3 {
 	public static final double TRACK = 14.5;  
 
 	public static void main(String[] args) {
-		int buttonChoice;
+		
 		Odometer odometer = new Odometer(leftMotor, rightMotor);
 		final CoordinateDriver driver = new CoordinateDriver(leftMotor, rightMotor, WHEEL_RADIUS, WHEEL_RADIUS, TRACK, odometer);
 
@@ -30,55 +30,27 @@ public class lab3 {
 		//OdometryCorrection odometryCorrection = new OdometryCorrection(odometer);
 
 		
-		//egde do you get this change
-		do {
-			// clear the display
-			t.clear();
-
-			// ask the user whether the motors should drive in a square or float
-			t.drawString("< Left | Right >", 0, 0);
-			t.drawString("       |        ", 0, 1);
-			t.drawString(" Float | Drive  ", 0, 2);
-			t.drawString("motors | to a   ", 0, 3);
-			t.drawString("       | Coord ", 0, 4);
-
-			buttonChoice = Button.waitForAnyPress();
-		} while (buttonChoice != Button.ID_LEFT
-				&& buttonChoice != Button.ID_RIGHT);
-
-		if (buttonChoice == Button.ID_LEFT) {
+		// start the odometer, the odometry display and (possibly) the
+		// odometry correction
 			
-			leftMotor.forward();
-			leftMotor.flt();
-			rightMotor.forward();
-			rightMotor.flt();
-			
-			odometer.start();
-			odometryDisplay.start();
-		//	odometryCorrection.start();
-			
-		} else {
-			// start the odometer, the odometry display and (possibly) the
-			// odometry correction
-			
-			odometer.start();
-			odometryDisplay.start();
-			//odometryCorrection.start();
+		odometer.start();
+		odometryDisplay.start();
+		//odometryCorrection.start();
 
-			// spawn a new Thread to avoid SquareDriver.drive() from blocking
-			(new Thread() {
-				public void run() {
-					driver.travelTo(60,30);
-					driver.travelTo(30,30);
-					driver.travelTo(30,60);
-					driver.travelTo(60,0);
-				//	driver.travelTo(90,30);
-					//driver.travelTo(30,-60);
-					//driver.travelTo(0,60);//CoordinateDriver.drive(leftMotor, rightMotor, WHEEL_RADIUS, WHEEL_RADIUS, TRACK);
-					//CoordinateDriver.travelTo(3,3);
-				}
-			}).start();
-		}
+		// spawn a new Thread to avoid SquareDriver.drive() from blocking
+		(new Thread() {
+			public void run() {
+				driver.travelTo(60,30);
+				driver.travelTo(30,30);
+				driver.travelTo(30,60);
+				driver.travelTo(60,0);
+			//	driver.travelTo(90,30);
+				//driver.travelTo(30,-60);
+				//driver.travelTo(0,60);//CoordinateDriver.drive(leftMotor, rightMotor, WHEEL_RADIUS, WHEEL_RADIUS, TRACK);
+				//CoordinateDriver.travelTo(3,3);
+			}
+		}).start();
+	
 		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
 		System.exit(0);
