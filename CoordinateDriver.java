@@ -70,14 +70,10 @@ public class CoordinateDriver {
 		else{
 		angle = 90-Math.atan((tempY)/(tempX))*180/Math.PI; 
 		System.out.println("ELSLELELELELELELELEL");
-		}//test 1 1
+		}
 		
 		
-		leftMotor.setSpeed(ROTATE_SPEED);
-		rightMotor.setSpeed(ROTATE_SPEED);
-				
-		leftMotor.rotate(convertAngle(leftRadius, width, angle), true);
-		rightMotor.rotate(-convertAngle(rightRadius, width, angle), false);
+		turnTo(angle);
 		
 		leftMotor.setSpeed(FORWARD_SPEED);
 		rightMotor.setSpeed(FORWARD_SPEED);
@@ -106,8 +102,12 @@ public class CoordinateDriver {
 		
 	}
 	
-	void turnTo(double x, double y){
-		
+	void turnTo(double theta){
+		leftMotor.setSpeed(ROTATE_SPEED);
+		rightMotor.setSpeed(ROTATE_SPEED);
+				
+		leftMotor.rotate(convertAngle(leftRadius, width, theta), true);
+		rightMotor.rotate(-convertAngle(rightRadius, width, theta), false);
 	}
 	
 	boolean isNavigating(){
