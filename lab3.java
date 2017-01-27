@@ -5,16 +5,12 @@ import lejos.hardware.Button;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
-<<<<<<< HEAD
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
-import wallFollower.UltrasonicController;
-import wallFollower.UltrasonicPoller;
-=======
 
->>>>>>> origin/master
+
 
 public class lab3 {
 	// Static Resources:
@@ -45,9 +41,9 @@ public class lab3 {
 		//Odometer odometer = new Odometer(leftMotor, rightMotor);
 		OdometryDisplay odometryDisplay = new OdometryDisplay(odometer,t);
 		//OdometryCorrection odometryCorrection = new OdometryCorrection(odometer);
-		SensorModes usSensor = new EV3UltrasonicSensor(usPort);		// usSensor is the instance
-		SampleProvider usDistance = usSensor.getMode("Distance");	// usDistance provides samples from this instance
-		float[] usData = new float[usDistance.sampleSize()];		// usData is the buffer in which data are returned
+		//SensorModes usSensor = new EV3UltrasonicSensor(usPort);		// usSensor is the instance
+	//	SampleProvider usDistance = usSensor.getMode("Distance");	// usDistance provides samples from this instance
+		//float[] usData = new float[usDistance.sampleSize()];		// usData is the buffer in which data are returned
 		
 		// Setup Printer											// This thread prints status information
 		//Printer printer = null;										// in the background

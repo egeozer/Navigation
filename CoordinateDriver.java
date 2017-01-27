@@ -56,10 +56,7 @@ public class CoordinateDriver extends Thread implements UltrasonicController{
 	
 	
 	void travelTo(double x, double y){
-<<<<<<< HEAD
-		//coordinateFollower follower = new coordinateFollower(leftMotor, rightMotor, bandCenter, bandWidth, motorLow, motorHigh);
-=======
->>>>>>> origin/master
+
 		double currentX = odometer.getX();
 		double currentY = odometer.getY();
 		double tempX = x-currentX;
