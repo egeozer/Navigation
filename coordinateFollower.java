@@ -3,7 +3,7 @@ package Navigation;
 import lejos.hardware.motor.*;
 import Navigation.UltrasonicController;
 
-public class coordinateFollower implements UltrasonicController{
+public class coordinateFollower extends Thread implements UltrasonicController{
 
 	private final int bandCenter, bandwidth;
 	private final int motorLow, motorHigh, FILTER_OUT = 20;
@@ -24,12 +24,13 @@ public class coordinateFollower implements UltrasonicController{
 		this.leftMotor = leftMotor;
 		this.rightMotor = rightMotor;
 
-		leftMotor.setSpeed(motorHigh);				// Start robot moving forward
-		rightMotor.setSpeed(motorHigh);
-		leftMotor.forward();
-		rightMotor.forward();
+		//leftMotor.setSpeed(motorHigh);				// Start robot moving forward
+		//rightMotor.setSpeed(motorHigh);
+		//leftMotor.forward();
+		//rightMotor.forward();
 		filterControl = 0;
 	}
+	
 
 	@Override
 	public void processUSData(int distance) {
@@ -58,13 +59,8 @@ public class coordinateFollower implements UltrasonicController{
 			distError=bandCenter-this.distance;			// Compute error using filter distance
 			System.out.println(distError);				//	prints the distError on the ev3 display for debugging 
 
-			if (Math.abs(distError) <= bandwidth) {	// Within limits of acceptable values of bandCenter, the robot goes straight
-				leftMotor.setSpeed(motorHigh);		
-				rightMotor.setSpeed(motorHigh);
-				leftMotor.forward();
-				rightMotor.forward();				
-			}
-			else if (distError > 0) {				// Too close to the wall
+			
+		if (distError > 0) {				// Too close to the wall
 				
 				if (distError>=25){					//Critical point(very close to the wall), the robot will go backwards to avoid possible collision
 					leftMotor.setSpeed(motorLow);
@@ -85,20 +81,7 @@ public class coordinateFollower implements UltrasonicController{
 					rightMotor.backward();		
 					}
 			}
-			else if (distError < 0) {				// Too far from the wall
-				if(distError<-20){					//when the robot is very far from the wall, the turn will be sharper to the left
-					leftMotor.setSpeed(motorLow-25);
-					rightMotor.setSpeed(motorHigh+DELTASPD);
-					leftMotor.forward();
-					rightMotor.forward();		
-				}
-				else{
-					leftMotor.setSpeed(motorLow);	//normal far distance from the wall, robot turns left
-					rightMotor.setSpeed(motorHigh+DELTASPD/2);
-					leftMotor.forward();
-					rightMotor.forward();	
-				}				
-			}					
+							
 	}
 	
 	@Override
