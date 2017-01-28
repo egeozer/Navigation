@@ -1,9 +1,10 @@
 package Navigation;
 
+import lejos.hardware.Button;
 import lejos.hardware.motor.*;
 import Navigation.UltrasonicController;
 
-public class coordinateFollower extends Thread implements UltrasonicController{
+public class coordinateFollower implements UltrasonicController{
 
 	private final int bandCenter;
 	private final int motorLow, motorHigh, FILTER_OUT = 20;
@@ -12,9 +13,15 @@ public class coordinateFollower extends Thread implements UltrasonicController{
 	private int distError;
 	private int filterControl;
 	private EV3LargeRegulatedMotor leftMotor, rightMotor;
-
+	CoordinateDriver2 driver;
+	boolean firstCoord = false;
+	Odometer odometer;
+	boolean collision;
+	int counter;
+	
+	
 	public coordinateFollower(EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor,
-			int bandCenter, int bandwidth, int motorLow, int motorHigh) {
+			int bandCenter, int bandwidth, int motorLow, int motorHigh, CoordinateDriver2 driver, Odometer odometer) {
 
 		//Default Constructor
 		this.bandCenter = bandCenter;
@@ -28,12 +35,15 @@ public class coordinateFollower extends Thread implements UltrasonicController{
 		//leftMotor.forward();
 		//rightMotor.forward();
 		filterControl = 0;
+		this.driver = driver;
+		this.odometer = odometer;
+		
 	}
 	
 
 	@Override
 	public void processUSData(int distance) {
-
+//counter++;
 		// rudimentary filter - tosses out invalid samples corresponding to null signal.
 		
 		if (distance >= 255 && filterControl < FILTER_OUT) {
@@ -55,31 +65,38 @@ public class coordinateFollower extends Thread implements UltrasonicController{
 
 		// Main control loop: read distance, determine error, adjust speed, and repeat
 					
-			distError=bandCenter-this.distance;			// Compute error using filter distance
+			distError=bandCenter-distance;			// Compute error using filter distance
 			System.out.println(distError);				//	prints the distError on the ev3 display for debugging 
-
+		
+		if (distError > 25 ) {				// Too close to the wall
+								
+			leftMotor.setSpeed(motorLow);
 			
-		if (distError > 0) {				// Too close to the wall
+			rightMotor.setSpeed(motorLow);
+			
+			leftMotor.backward();
+			
+			rightMotor.backward();	
+			
+			
+			
+			
+			//System.out.println("hi");
+			collision = true;
 				
-				if (distError>=25){					//Critical point(very close to the wall), the robot will go backwards to avoid possible collision
-					leftMotor.setSpeed(motorLow);
-					rightMotor.setSpeed(motorLow);
-					leftMotor.backward();
-					rightMotor.backward();						
-				}
-				else if(distError>=15){				//Sharp turn before getting to the critical point, left motor set faster and right motor set backwards
-					leftMotor.setSpeed(motorHigh+2*DELTASPD);	//in order to make a sharp right turn
-					rightMotor.setSpeed(motorLow+DELTASPD/4);
-					leftMotor.forward();
-					rightMotor.backward();						
-				}
-				else{	
-					leftMotor.setSpeed(motorHigh+DELTASPD);		//normal right turn, below the acceptable values of bandCenter
-					rightMotor.setSpeed(motorLow-DELTASPD/2);	
-					leftMotor.forward();
-					rightMotor.backward();		
-					}
 			}
+		//counter++;
+		if(firstCoord == false)
+		driver.travelTo(0,60);
+		
+		
+		
+		
+		
+		firstCoord = true;
+		//firstCoord = true;
+		//driver.travelTo(60,0);
+		
 							
 	}
 	
