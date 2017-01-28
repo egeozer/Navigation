@@ -5,7 +5,7 @@ import lejos.hardware.Button;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
-<<<<<<< HEAD
+
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.SensorModes;
@@ -13,8 +13,6 @@ import lejos.robotics.SampleProvider;
 import wallFollower.Printer;
 
 
-=======
->>>>>>> origin/master
 
 public class lab3 {
 	// Static Resources:
@@ -53,13 +51,13 @@ public class lab3 {
 		SampleProvider usDistance = usSensor.getMode("Distance");	// usDistance provides samples from this instance
 		float[] usData = new float[usDistance.sampleSize()];		// usData is the buffer in which data are returned
 		
-<<<<<<< HEAD
+
 										// This thread samples the US and invokes
 		UltrasonicPoller usPoller = null;							// the selected controller on each cycle
-=======
+
 		// Setup Ultrasonic Poller									// This thread samples the US and invokes
 		//UltrasonicPoller usPoller = null;							// the selected controller on each cycle
->>>>>>> origin/master
+
 				
 		// Depending on which button was pressed, invoke the US poller and printer with the
 		// appropriate constructor.d
@@ -86,33 +84,34 @@ public class lab3 {
 			t.drawString("        |         ", 0, 4);
 
 			buttonChoice = Button.waitForAnyPress();
-		} while (buttonChoice != Button.ID_ALL);
+		} while (buttonChoice != Button.ID_LEFT
+				&& buttonChoice != Button.ID_RIGHT);
 		
 		if (buttonChoice == Button.ID_LEFT) {
 		odometer.start();
 		odometryDisplay.start();
-		usPoller.start();
-		driver.start();
-		
-		driver.travelTo(0,60);
-		driver.travelTo(60,0);
 		//usPoller.start();
+		//driver.start();
 		
-		//printer.start();
-		//odometryCorrection.start();
-		// spawn a new Thread to avoid SquareDriver.drive() from blocking
-<<<<<<< HEAD
-	//driver.start();
-	
-=======
-		driver.start();
+		
+		driver.travelTo(60,30);
+		driver.travelTo(30,30);
+		driver.travelTo(30,60);
+		driver.travelTo(60,0);
 		//usPoller.start();
 		
 		
 		} else { 
+			odometer.start();
+			odometryDisplay.start();
+			usPoller.start();
+			//driver.start();
+			driver.start();
+			driver.travelTo(0,60);
+			driver.travelTo(60,0);
 			
 		}
->>>>>>> origin/master
+
 		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
 		System.exit(0);

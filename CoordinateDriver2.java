@@ -88,12 +88,9 @@ public class CoordinateDriver2 extends Thread {
 		leftMotor.setSpeed(FORWARD_SPEED);
 		rightMotor.setSpeed(FORWARD_SPEED);
 		
-		//move forwards with motors synchronized
-		//leftMotor.startSynchronization();	
-		//while(distError < 25){
 		leftMotor.rotate(convertDistance(leftRadius, distance), true);
 		rightMotor.rotate(convertDistance(rightRadius, distance), false);
-		//leftMotor.endSynchronization();
+	
 	
 		
 	}
@@ -109,6 +106,16 @@ public class CoordinateDriver2 extends Thread {
 		rightMotor.rotate(-convertAngle(rightRadius, width, theta), false);
 		//leftMotor.endSynchronization();
 	}
+	
+	void goDistance(double distance){
+		
+		leftMotor.setSpeed(FORWARD_SPEED);
+		rightMotor.setSpeed(FORWARD_SPEED);
+		
+		leftMotor.rotate(convertDistance(leftRadius, distance), true);
+		rightMotor.rotate(convertDistance(rightRadius, distance), false);
+	}
+	
 	
 	boolean isNavigating(){
 		return navigating;

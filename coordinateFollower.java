@@ -66,34 +66,49 @@ public class coordinateFollower implements UltrasonicController{
 		// Main control loop: read distance, determine error, adjust speed, and repeat
 					
 			distError=bandCenter-distance;			// Compute error using filter distance
-			System.out.println(distError);				//	prints the distError on the ev3 display for debugging 
+			//System.out.println(distError);				//	prints the distError on the ev3 display for debugging 
 		
 		if (distError > 25 ) {				// Too close to the wall
 								
-			leftMotor.setSpeed(motorLow);
+			//leftMotor.setSpeed(motorLow);
+			driver.turnTo(90);
+			driver.goDistance(25);
+			driver.turnTo(-90);
+			driver.goDistance(40);
+			driver.turnTo(-90);
+			driver.goDistance(25);
+			driver.turnTo(90);
+			if(odometer.getTheta()*180/Math.PI>50){
+			driver.travelTo(60,0);
+			}
+			else{
+				driver.travelTo(0,60);
+				//driver.travelTo(60,0);
+			}
+		//	if(odometer.angle)
+		//	driver.travelTo(60,0);
+			//rightMotor.setSpeed(motorLow);
+		}
+			//leftMotor.backward();
 			
-			rightMotor.setSpeed(motorLow);
-			
-			leftMotor.backward();
-			
-			rightMotor.backward();	
+			//rightMotor.backward();	
 			
 			
 			
 			
 			//System.out.println("hi");
-			collision = true;
+			//collision = true;
 				
-			}
+			
 		//counter++;
-		if(firstCoord == false)
-		driver.travelTo(0,60);
+		//if(firstCoord == false)
+		//driver.travelTo(0,60);
 		
 		
 		
 		
 		
-		firstCoord = true;
+		//firstCoord = true;
 		//firstCoord = true;
 		//driver.travelTo(60,0);
 		
