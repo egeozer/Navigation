@@ -63,24 +63,28 @@ public class lab3 {
 			t.clear();
 
 			// tell the user to press a button to start the program
-			t.drawString("					", 0, 0);
-			t.drawString(" Press any button ", 0, 1);
-			t.drawString("   to start the   ", 0, 2);
-			t.drawString("      program     ", 0, 3);
-			t.drawString("					", 0, 4);
+			t.drawString("< Left  |  Right >", 0, 0);
+			t.drawString("        |         ", 0, 1);
+			t.drawString(" Simple | Obstacle", 0, 2);
+			t.drawString(" path   | path    ", 0, 3);
+			t.drawString("        |         ", 0, 4);
 
 			buttonChoice = Button.waitForAnyPress();
 		} while (buttonChoice != Button.ID_ALL);
 		
-		
+		if (buttonChoice == Button.ID_LEFT) {
 		odometer.start();
 		odometryDisplay.start();
 		//usPoller.start();
 		//odometryCorrection.start();
-
 		// spawn a new Thread to avoid SquareDriver.drive() from blocking
-	driver.start();
-	//usPoller.start();
+		driver.start();
+		//usPoller.start();
+		
+		
+		} else { 
+			
+		}
 		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);
 		System.exit(0);
