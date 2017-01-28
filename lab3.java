@@ -5,6 +5,7 @@ import lejos.hardware.Button;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
+<<<<<<< HEAD
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.sensor.SensorModes;
@@ -12,6 +13,8 @@ import lejos.robotics.SampleProvider;
 import wallFollower.Printer;
 
 
+=======
+>>>>>>> origin/master
 
 public class lab3 {
 	// Static Resources:
@@ -50,8 +53,13 @@ public class lab3 {
 		SampleProvider usDistance = usSensor.getMode("Distance");	// usDistance provides samples from this instance
 		float[] usData = new float[usDistance.sampleSize()];		// usData is the buffer in which data are returned
 		
+<<<<<<< HEAD
 										// This thread samples the US and invokes
 		UltrasonicPoller usPoller = null;							// the selected controller on each cycle
+=======
+		// Setup Ultrasonic Poller									// This thread samples the US and invokes
+		//UltrasonicPoller usPoller = null;							// the selected controller on each cycle
+>>>>>>> origin/master
 				
 		// Depending on which button was pressed, invoke the US poller and printer with the
 		// appropriate constructor.d
@@ -63,7 +71,24 @@ public class lab3 {
 			
 		// start the odometer, the odometry display and (possibly) the
 		// odometry correction
-			
+		
+		// start interface
+		int buttonChoice;
+		do {
+			// clear the display
+			t.clear();
+
+			// tell the user to press a button to start the program
+			t.drawString("					", 0, 0);
+			t.drawString(" Press any button ", 0, 1);
+			t.drawString("   to start the   ", 0, 2);
+			t.drawString("      program     ", 0, 3);
+			t.drawString("					", 0, 4);
+
+			buttonChoice = Button.waitForAnyPress();
+		} while (buttonChoice != Button.ID_ALL);
+		
+		
 		odometer.start();
 		odometryDisplay.start();
 		usPoller.start();
