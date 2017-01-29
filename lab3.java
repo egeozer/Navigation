@@ -106,8 +106,14 @@ public class lab3 {
 			odometryDisplay.start();
 			usPoller.start();
 			//driver.start();
-			driver.start();
+			//driver.start();
 			driver.travelTo(0,60);
+			try {
+				Thread.sleep(30000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			driver.travelTo(60,0);
 			
 		}

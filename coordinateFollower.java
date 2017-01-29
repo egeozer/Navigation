@@ -83,7 +83,7 @@ public class coordinateFollower implements UltrasonicController{
 			}
 			else{
 				driver.travelTo(0,60);
-				//driver.travelTo(60,0);
+				driver.travelTo(60,0);
 			}
 		//	if(odometer.angle)
 		//	driver.travelTo(60,0);
