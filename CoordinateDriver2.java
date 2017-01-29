@@ -75,15 +75,18 @@ public class CoordinateDriver2 extends Thread {
 		
 		distance = Math.sqrt(  Math.pow((tempX), 2)    + Math.pow((tempY), 2)   );
 	
+		///////////
 		//angle = ((Math.atan2(tempX,tempY)*180/Math.PI-odometer.getTheta()*180/Math.PI)+180)%360-180;
-		angle =Math.atan2(tempX,tempY)*180/Math.PI;
+		double newAngle = Math.atan2(tempX,tempY)*180/Math.PI;
+		double oldAngle = odometer.getTheta()*180/Math.PI;
+		double difAngle = newAngle - oldAngle;
+		double turnAngle = ((difAngle + 180)%360)-180;
+		turnTo (turnAngle);
+		//turnTo (-previousAngle);
+		//previousAngle = angle;
+		//turnTo (angle);
+		//////////
 		
-		turnTo (-previousAngle);
-		previousAngle = angle;
-		
-		
-		turnTo (angle);
-
 		//set linear speed	
 		leftMotor.setSpeed(FORWARD_SPEED);
 		rightMotor.setSpeed(FORWARD_SPEED);
