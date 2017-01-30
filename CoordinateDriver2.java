@@ -13,21 +13,32 @@ public class CoordinateDriver2 extends Thread {
 	EV3LargeRegulatedMotor leftMotor; EV3LargeRegulatedMotor rightMotor;
 	double leftRadius; double rightRadius; double width;
 	double  previousAngle = 0;
-	
+	boolean firstPath = false;
 	public static final int DELTASPD = 100;
+	boolean collision = false;
 	
 	
+	public boolean isCollision() {
+		return collision;
+	}
+
+	public void setCollision(boolean collision) {
+		this.collision = collision;
+	}
+
 	Odometer odometer;
 	
 
-	public CoordinateDriver2(EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor,
+	public CoordinateDriver2(
 			double leftRadius, double rightRadius, double width, Odometer odometer){
-		this.leftMotor=leftMotor;
-		this.rightMotor=rightMotor;
+		
 		this.leftRadius=leftRadius;
 		this.rightRadius=rightRadius;
 		this.width=width;
 		this.odometer = odometer;
+		this.leftMotor = this.odometer.getLeftMotor();
+		this.rightMotor = this.odometer.getRightMotor();
+		
 		//getx = odometer.getX();
 		
 		for (EV3LargeRegulatedMotor motor : new EV3LargeRegulatedMotor[] { leftMotor, rightMotor }) {
@@ -40,34 +51,15 @@ public class CoordinateDriver2 extends Thread {
 		
 	}
 
-	public void run() {
-		//while(true){
-			
-		while (true) {														// operates continuously
-			// print last US reading
-						//travelTo(60,30);
-			try {
-				Thread.sleep(50);											// sleep for 200 mS
-			} catch (Exception e) {
-				System.out.println("Error: " + e.getMessage());
-			}
-		}
 	
-	}
 
-	
-	
-	
-	
 	void travelTo(double x, double y){
 
 		double currentX = odometer.getX();
 		double currentY = odometer.getY();
 		double tempX = x-currentX;
 		double tempY = y-currentY;
-		double distance;
-		double angle;
-		
+		double distance;	
 		
 		try {
 			Thread.sleep(1000);
@@ -75,51 +67,73 @@ public class CoordinateDriver2 extends Thread {
 		
 		distance = Math.sqrt(  Math.pow((tempX), 2)    + Math.pow((tempY), 2)   );
 	
-		///////////
-		//angle = ((Math.atan2(tempX,tempY)*180/Math.PI-odometer.getTheta()*180/Math.PI)+180)%360-180;
+		
 		double newAngle = Math.atan2(tempX,tempY)*180/Math.PI;
 		double oldAngle = odometer.getTheta()*180/Math.PI;
 		double difAngle = newAngle - oldAngle;
 		double turnAngle = ((difAngle + 180)%360)-180;
+		navigating = true;
 		turnTo (turnAngle);
-		//turnTo (-previousAngle);
-		//previousAngle = angle;
-		//turnTo (angle);
-		//////////
-		
-		//set linear speed	
+	
 		leftMotor.setSpeed(FORWARD_SPEED);
 		rightMotor.setSpeed(FORWARD_SPEED);
 		
 		leftMotor.rotate(convertDistance(leftRadius, distance), true);
 		rightMotor.rotate(convertDistance(rightRadius, distance), false);
 	
-	
 		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 	
+	public boolean isFirstPath() {
+		return firstPath;
+	}
+
 	void turnTo(double theta){
 		//set rotational speed
+		navigating = true;
 		leftMotor.setSpeed(ROTATE_SPEED);
 		rightMotor.setSpeed(ROTATE_SPEED);
 		
-		//turn with motors synchronized
-		//leftMotor.startSynchronization();
+
 		leftMotor.rotate(convertAngle(leftRadius, width, theta), true);
 		rightMotor.rotate(-convertAngle(rightRadius, width, theta), false);
+		while(true){
+			if(!leftMotor.isMoving()&& !rightMotor.isMoving()){
+				break;
+			}
+			
+		}
 		//leftMotor.endSynchronization();
 	}
 	
 	void goDistance(double distance){
+		navigating = true;
 		
 		leftMotor.setSpeed(FORWARD_SPEED);
 		rightMotor.setSpeed(FORWARD_SPEED);
 		
 		leftMotor.rotate(convertDistance(leftRadius, distance), true);
 		rightMotor.rotate(convertDistance(rightRadius, distance), false);
+		while(true){
+			if(!leftMotor.isMoving()&& !rightMotor.isMoving()){
+				break;
+			}
+			
+		}
 	}
 	
 	
+	public void setNavigating(boolean navigating) {
+		this.navigating = navigating;
+	}
+
 	boolean isNavigating(){
 		return navigating;
 	}

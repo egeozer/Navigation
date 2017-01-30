@@ -32,21 +32,20 @@ public class lab3 {
 // Right motor connected to output B
 	
 	// Constants
-	public static final double WHEEL_RADIUS = 2.14;
-	public static final double TRACK = 13.5;  
+	public static final double WHEEL_RADIUS = 2.12;
+	public static final double TRACK = 13.7;  
 
 	public static void main(String[] args) {
 		
 		Odometer odometer = new Odometer(leftMotor, rightMotor);
-		 CoordinateDriver2 driver = new CoordinateDriver2(leftMotor, rightMotor, WHEEL_RADIUS, WHEEL_RADIUS, TRACK, odometer);
-		 //classtest name = new classtest();
-		 coordinateFollower follower = new coordinateFollower(leftMotor, rightMotor, bandCenter, bandWidth, motorLow, motorHigh, driver, odometer);
-		// some objects that need to be instantiated
+		 CoordinateDriver2 driver = new CoordinateDriver2( WHEEL_RADIUS, WHEEL_RADIUS, TRACK, odometer);
 		
+		 coordinateFollower follower = new coordinateFollower( bandCenter, bandWidth, motorLow, motorHigh, driver, odometer);
+	
 		final TextLCD t = LocalEV3.get().getTextLCD();
-		//Odometer odometer = new Odometer(leftMotor, rightMotor);
+		
 		OdometryDisplay odometryDisplay = new OdometryDisplay(odometer,t);
-		//OdometryCorrection odometryCorrection = new OdometryCorrection(odometer);
+		
 		SensorModes usSensor = new EV3UltrasonicSensor(usPort);		// usSensor is the instance
 		SampleProvider usDistance = usSensor.getMode("Distance");	// usDistance provides samples from this instance
 		float[] usData = new float[usDistance.sampleSize()];		// usData is the buffer in which data are returned
@@ -55,20 +54,12 @@ public class lab3 {
 										// This thread samples the US and invokes
 		UltrasonicPoller usPoller = null;							// the selected controller on each cycle
 
-		// Setup Ultrasonic Poller									// This thread samples the US and invokes
-		//UltrasonicPoller usPoller = null;							// the selected controller on each cycle
-
-				
-		// Depending on which button was pressed, invoke the US poller and printer with the
-		// appropriate constructor.d
+	
 		
 		usPoller = new UltrasonicPoller(usDistance, usData,  follower);
 		
-		//Printer printer = null;									// Proportional control selected
-		//usPoller = new UltrasonicPoller(usDistance, usData, follower);
-			
-		// start the odometer, the odometry display and (possibly) the
-		// odometry correction
+		
+	
 		
 		// start interface
 		int buttonChoice;
@@ -90,33 +81,32 @@ public class lab3 {
 		if (buttonChoice == Button.ID_LEFT) {
 		odometer.start();
 		odometryDisplay.start();
-		//usPoller.start();
-		//driver.start();
-		
 		
 		driver.travelTo(60,30);
 		driver.travelTo(30,30);
 		driver.travelTo(30,60);
 		driver.travelTo(60,0);
-		//usPoller.start();
+		
 		
 		
 		} else { 
 			odometer.start();
 			odometryDisplay.start();
 			usPoller.start();
-			//driver.start();
-			//driver.start();
+	
+			driver.setNavigating(true);
 			driver.travelTo(0,60);
-			try {
-				Thread.sleep(30000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+				try {
+					Thread.sleep(30000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
+		
 			driver.travelTo(60,0);
-			
-		}
 
 		
 		while (Button.waitForAnyPress() != Button.ID_ESCAPE);

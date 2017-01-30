@@ -18,17 +18,19 @@ public class coordinateFollower implements UltrasonicController{
 	Odometer odometer;
 	boolean collision;
 	int counter;
+	boolean block;
 	
 	
-	public coordinateFollower(EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor,
+	public coordinateFollower(
 			int bandCenter, int bandwidth, int motorLow, int motorHigh, CoordinateDriver2 driver, Odometer odometer) {
 
 		//Default Constructor
 		this.bandCenter = bandCenter;
 		this.motorLow = motorLow;
 		this.motorHigh = motorHigh;
-		this.leftMotor = leftMotor;
-		this.rightMotor = rightMotor;
+		//this.leftMotor = leftMotor;
+		//this.rightMotor = rightMotor;
+		//this.odometer = odometer;
 
 		//leftMotor.setSpeed(motorHigh);				// Start robot moving forward
 		//rightMotor.setSpeed(motorHigh);
@@ -37,6 +39,8 @@ public class coordinateFollower implements UltrasonicController{
 		filterControl = 0;
 		this.driver = driver;
 		this.odometer = odometer;
+		this.leftMotor = this.odometer.getLeftMotor();
+		this.rightMotor = this.odometer.getRightMotor();
 		
 	}
 	
@@ -69,7 +73,8 @@ public class coordinateFollower implements UltrasonicController{
 			//System.out.println(distError);				//	prints the distError on the ev3 display for debugging 
 		
 		if (distError > 25 ) {				// Too close to the wall
-								
+			block = true;
+								driver.setNavigating(true);
 			//leftMotor.setSpeed(motorLow);
 			driver.turnTo(90);
 			driver.goDistance(25);
@@ -82,39 +87,33 @@ public class coordinateFollower implements UltrasonicController{
 			driver.travelTo(60,0);
 			}
 			else{
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				driver.setCollision(false);
 				driver.travelTo(0,60);
 				driver.travelTo(60,0);
 			}
+			driver.setNavigating(false);
 		//	if(odometer.angle)
 		//	driver.travelTo(60,0);
 			//rightMotor.setSpeed(motorLow);
 		}
 			//leftMotor.backward();
 			
-			//rightMotor.backward();	
-			
-			
-			
-			
-			//System.out.println("hi");
-			//collision = true;
-				
-			
-		//counter++;
-		//if(firstCoord == false)
-		//driver.travelTo(0,60);
 		
-		
-		
-		
-		
-		//firstCoord = true;
-		//firstCoord = true;
-		//driver.travelTo(60,0);
 		
 							
 	}
 	
+	public boolean isBlock() {
+		return block;
+	}
+
+
 	@Override
 	public int readUSDistance() {
 		return this.distance;
